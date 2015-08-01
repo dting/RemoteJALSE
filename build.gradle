@@ -1,0 +1,45 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.2.5.RELEASE")
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'spring-boot'
+apply plugin: 'application'
+
+jar {
+    baseName = 'remote-jalse'
+    version =  '0.1.0'
+}
+
+mainClassName = "remotejalse.Application"
+applicationDefaultJvmArgs = ["-server","-Xms1G","-Xmx2G"]
+
+repositories {
+    mavenCentral()
+	maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+configurations {
+    all*.exclude module : 'spring-boot-starter-logging'
+}
+
+dependencies {
+	compile 'com.github.ellzord:JALSE:1.1.4-SNAPSHOT'
+	compile 'org.apache.commons:commons-lang3:3.4'
+    compile 'org.springframework.boot:spring-boot-starter-web'
+    compile 'org.springframework.boot:spring-boot-starter-log4j2'
+    compile 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml'
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.3'
+}
