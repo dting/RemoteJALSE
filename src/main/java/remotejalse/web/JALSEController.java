@@ -23,25 +23,25 @@ public class JALSEController {
     @Autowired
     private JALSEService jalseService;
 
-    @RequestMapping(value = "/active", method = RequestMethod.GET)
-    public Set<UUID> getActiveIDs() {
-	return jalseService.getActiveIDs();
-    }
-
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public UUID create(@RequestBody JALSECreationRequest creationRequest) {
+    public UUID create(@RequestBody final JALSECreationRequest creationRequest) {
 	if (logger.isDebugEnabled()) {
 	    logger.debug("Creation request: {}", creationRequest);
 	}
 
-	String id = creationRequest.getId();
-	Integer maxEntities = creationRequest.getMaxEntities();
+	final String id = creationRequest.getID();
+	final Integer maxEntities = creationRequest.getMaxEntities();
 
-	UUID uid = !StringUtils.isBlank(id) ? UUID.fromString(id) : jalseService.getDefaultID();
-	int entityLimit = maxEntities != null ? maxEntities : jalseService.getDefaultEntityLimit();
+	final UUID uid = !StringUtils.isBlank(id) ? UUID.fromString(id) : jalseService.getDefaultID();
+	final int entityLimit = maxEntities != null ? maxEntities : jalseService.getDefaultEntityLimit();
 
 	jalseService.createJALSE(uid, entityLimit);
 
 	return uid;
+    }
+
+    @RequestMapping(value = "/active", method = RequestMethod.GET)
+    public Set<UUID> getActiveIDs() {
+	return jalseService.getActiveIDs();
     }
 }

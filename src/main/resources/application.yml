@@ -1,0 +1,3 @@
+defaultID: random
+defaultEntityLimit: 100
+actionEngineThreads: 12

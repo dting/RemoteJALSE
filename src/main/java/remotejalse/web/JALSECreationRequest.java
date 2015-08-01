@@ -11,12 +11,13 @@ public class JALSECreationRequest {
     private final Integer maxEntities;
 
     @JsonCreator
-    public JALSECreationRequest(@JsonProperty("id") String id, @JsonProperty("maxEntities") Integer maxEntities) {
+    public JALSECreationRequest(@JsonProperty("id") final String id,
+	    @JsonProperty("maxEntities") final Integer maxEntities) {
 	this.id = id;
 	this.maxEntities = maxEntities;
     }
 
-    public String getId() {
+    public String getID() {
 	return id;
     }
 
