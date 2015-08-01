@@ -2,6 +2,7 @@ package remotejalse.service;
 
 import java.util.Collections;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
@@ -18,6 +19,7 @@ import jalse.JALSE;
 import jalse.actions.ActionEngine;
 import jalse.actions.ThreadPoolActionEngine;
 import jalse.entities.DefaultEntityFactory;
+import jalse.entities.Entity;
 
 @Service
 public class JALSEService {
@@ -42,7 +44,7 @@ public class JALSEService {
 	if (actionEngineThreads <= 0) {
 	    throw new IllegalArgumentException("Action engine threads must be positive");
 	}
-	if (RANDOM_ID.equals(defaultID)) {
+	if (RANDOM_ID.equalsIgnoreCase(defaultID)) {
 	    idSupplier = UUID::randomUUID;
 	} else {
 	    final UUID id = UUID.fromString(defaultID);
@@ -72,6 +74,20 @@ public class JALSEService {
 	};
 	instances.put(id, jalse);
 	return jalse;
+    }
+    
+    public void deleteJALSE(final UUID id) {
+	logger.info("Deleting JALSE instance: {}", id);
+	
+	JALSE jalse = instances.remove(Objects.requireNonNull(id));
+
+	// Check existing instances
+	if (jalse == null) {
+	    throw new IllegalArgumentException(String.format("No JALSE instance exists with ID: %s", id));
+	}
+	
+	// Kill top level entities
+	jalse.getEntities().forEach(Entity::kill);
     }
 
     public Set<UUID> getActiveIDs() {

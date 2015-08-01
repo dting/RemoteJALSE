@@ -40,6 +40,20 @@ public class JALSEController {
 	return uid;
     }
 
+    @RequestMapping(value = "/delete", method = RequestMethod.POST)
+    public void delete(@RequestBody final IdentifiedRequest identifiedRequest) {
+	if (logger.isDebugEnabled()) {
+	    logger.debug("Deletion request: {}", identifiedRequest);
+	}
+
+	final String id = identifiedRequest.getID();
+	if (StringUtils.isBlank(id)) {
+	    throw new IllegalArgumentException();
+	}
+
+	jalseService.deleteJALSE(UUID.fromString(id));
+    }
+
     @RequestMapping(value = "/active", method = RequestMethod.GET)
     public Set<UUID> getActiveIDs() {
 	return jalseService.getActiveIDs();

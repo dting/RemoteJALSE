@@ -12,9 +12,7 @@ public class Application {
     public static void main(final String[] args) {
 	final ApplicationContext cxt = SpringApplication.run(Application.class, args);
 
-	/*
-	 * Start up shared engine for JALSE instances.
-	 */
+	// Start up shared engine for JALSE instances
 	cxt.getBean(JALSEService.class).initSharedEngine();
     }
 }
