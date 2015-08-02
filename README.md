@@ -6,13 +6,15 @@ A Spring-based RESTful + WebSocket [JALSE](https://github.com/Ellzord/JALSE) ser
 2. Run using ```./gradle run``` (See [The Application Plugin](http://gradle.org/docs/current/userguide/application_plugin.html))
 
 ### Current Endpoints
-* GET /jalse/active - lists all active JALSE instances
+* GET /jalse - lists all active JALSE instances
 * POST /jalse/create - creates a new JALSE instance
 * POST /jalse/delete - deletes a JALSE instance
-
-### Possible future Endpoints
+* GET /jalse/{jalseID} - summary of JALSE instance
+* GET /jalse/{jalseID}/{entityID} - summary of entity
 * GET /jalse/{jalseID}/entities - lists top level entities
 * GET /jalse/{jalseID}/{entityID}/entities - lists n level entities
+
+### Possible future Endpoints
 * POST /jalse/{jalseID}/entities/create - creates an entity
 * POST /jalse/{jalseID}/entities/kill - kills an entity
 * GET /jalse/{jalseID}/{entityID}/attributes - gets all attributes for an entity

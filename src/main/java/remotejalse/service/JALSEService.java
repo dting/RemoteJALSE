@@ -3,6 +3,7 @@ package remotejalse.service;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
@@ -75,17 +76,17 @@ public class JALSEService {
 	instances.put(id, jalse);
 	return jalse;
     }
-    
+
     public void deleteJALSE(final UUID id) {
 	logger.info("Deleting JALSE instance: {}", id);
-	
+
 	JALSE jalse = instances.remove(Objects.requireNonNull(id));
 
 	// Check existing instances
 	if (jalse == null) {
 	    throw new IllegalArgumentException(String.format("No JALSE instance exists with ID: %s", id));
 	}
-	
+
 	// Kill top level entities
 	jalse.getEntities().forEach(Entity::kill);
     }
@@ -107,5 +108,21 @@ public class JALSEService {
 	    logger.info("Initialising shared engine with {} threads", actionEngineThreads);
 	    sharedEngine = new ThreadPoolActionEngine(actionEngineThreads);
 	}
+    }
+
+    public JALSE getJALSE(UUID id) {
+	JALSE jalse = instances.get(Objects.requireNonNull(id));
+	// Check existing instances
+	if (jalse == null) {
+	    throw new IllegalArgumentException(String.format("No JALSE instance exists with ID: %s", id));
+	}
+	return jalse;
+    }
+
+    public Entity getEntity(UUID jalseID, UUID entityID) {
+	JALSE jalse = getJALSE(jalseID);
+	Optional<Entity> optEntity = jalse.streamEntityTree().filter(e -> entityID.equals(e.getID())).findAny();
+	return optEntity.orElseThrow(
+		() -> new IllegalArgumentException(String.format("No Entity found with ID: %s", entityID)));
     }
 }
