@@ -80,7 +80,7 @@ public class JALSEService {
     public void deleteJALSE(final UUID id) {
 	logger.info("Deleting JALSE instance: {}", id);
 
-	JALSE jalse = instances.remove(Objects.requireNonNull(id));
+	final JALSE jalse = instances.remove(Objects.requireNonNull(id));
 
 	// Check existing instances
 	if (jalse == null) {
@@ -103,15 +103,15 @@ public class JALSEService {
 	return idSupplier.get();
     }
 
-    public synchronized void initSharedEngine() {
-	if (sharedEngine == null) {
-	    logger.info("Initialising shared engine with {} threads", actionEngineThreads);
-	    sharedEngine = new ThreadPoolActionEngine(actionEngineThreads);
-	}
+    public Entity getEntity(final UUID jalseID, final UUID entityID) {
+	final JALSE jalse = getJALSE(jalseID);
+	final Optional<Entity> optEntity = jalse.streamEntityTree().filter(e -> entityID.equals(e.getID())).findAny();
+	return optEntity.orElseThrow(
+		() -> new IllegalArgumentException(String.format("No Entity found with ID: %s", entityID)));
     }
 
-    public JALSE getJALSE(UUID id) {
-	JALSE jalse = instances.get(Objects.requireNonNull(id));
+    public JALSE getJALSE(final UUID id) {
+	final JALSE jalse = instances.get(Objects.requireNonNull(id));
 	// Check existing instances
 	if (jalse == null) {
 	    throw new IllegalArgumentException(String.format("No JALSE instance exists with ID: %s", id));
@@ -119,10 +119,10 @@ public class JALSEService {
 	return jalse;
     }
 
-    public Entity getEntity(UUID jalseID, UUID entityID) {
-	JALSE jalse = getJALSE(jalseID);
-	Optional<Entity> optEntity = jalse.streamEntityTree().filter(e -> entityID.equals(e.getID())).findAny();
-	return optEntity.orElseThrow(
-		() -> new IllegalArgumentException(String.format("No Entity found with ID: %s", entityID)));
+    public synchronized void initSharedEngine() {
+	if (sharedEngine == null) {
+	    logger.info("Initialising shared engine with {} threads", actionEngineThreads);
+	    sharedEngine = new ThreadPoolActionEngine(actionEngineThreads);
+	}
     }
 }
