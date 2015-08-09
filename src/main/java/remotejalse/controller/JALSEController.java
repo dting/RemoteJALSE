@@ -3,7 +3,6 @@ package remotejalse.controller;
 import java.util.Set;
 import java.util.UUID;
 
-import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,9 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import remotejalse.controller.request.KillJALSERequest;
-import remotejalse.controller.request.NewJALSERequest;
-import remotejalse.controller.response.NewJALSEResponse;
+import remotejalse.controller.pojo.CreateJALSE;
+import remotejalse.controller.pojo.Identified;
 import remotejalse.service.JALSEService;
 
 @RestController
@@ -26,31 +24,31 @@ public class JALSEController {
     @Autowired
     private JALSEService jalseService;
 
+    @RequestMapping(method = RequestMethod.GET)
+    public Set<UUID> active() {
+	return jalseService.getActiveIDs();
+    }
+
     @RequestMapping(value = "/new", method = RequestMethod.POST)
-    public NewJALSEResponse create(@RequestBody final NewJALSERequest request) {
+    public CreateJALSE create(@RequestBody final CreateJALSE request) {
 	if (logger.isDebugEnabled()) {
-	    logger.debug("New JALSE request: {}", ReflectionToStringBuilder.toString(request));
+	    logger.debug("New JALSE request: {}", request);
 	}
 
 	final UUID jID = request.getID() != null ? request.getID() : jalseService.getDefaultID();
-	final int entityLimit = request.getMaxEntities() != null ? request.getMaxEntities()
+	final int entityLimit = request.getEntityLimit() != null ? request.getEntityLimit()
 		: jalseService.getDefaultEntityLimit();
 
 	jalseService.createJALSE(jID, entityLimit);
 
-	return new NewJALSEResponse(jID, entityLimit);
+	return new CreateJALSE(jID, entityLimit);
     }
 
     @RequestMapping(value = "/kill", method = RequestMethod.POST)
-    public void delete(@RequestBody final KillJALSERequest request) {
+    public void delete(@RequestBody final Identified request) {
 	if (logger.isDebugEnabled()) {
-	    logger.debug("Kill JALSE request: {}", ReflectionToStringBuilder.toString(request));
+	    logger.debug("Kill JALSE request: {}", request);
 	}
 	jalseService.deleteJALSE(request.getID());
-    }
-
-    @RequestMapping(method = RequestMethod.GET)
-    public Set<UUID> instances() {
-	return jalseService.getActiveIDs();
     }
 }

@@ -33,7 +33,7 @@ configurations {
 }
 
 dependencies {
-    compile 'com.github.ellzord:JALSE:1.1.4-SNAPSHOT'
+    compile 'com.github.ellzord:JALSE:1.1.8-SNAPSHOT'
     compile 'org.apache.commons:commons-lang3:3.4'
     compile 'org.springframework.boot:spring-boot-starter-web'
     compile 'org.springframework.boot:spring-boot-starter-log4j2'

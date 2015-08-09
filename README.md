@@ -5,27 +5,47 @@ A Spring-based RESTful + WebSocket [JALSE](https://github.com/Ellzord/JALSE) ser
 1. Build using ```./gradlew build``` (see [Building Java Projects with Gradle](https://spring.io/guides/gs/gradle/#_build_your_project_with_gradle_wrapper))
 2. Run using ```./gradle run``` (See [The Application Plugin](http://gradle.org/docs/current/userguide/application_plugin.html))
 
-### Current Endpoints
+### GET Endpoints
 * GET /jalse - lists all active JALSE instances
-* POST /jalse/create - creates a new JALSE instance
-* POST /jalse/delete - deletes a JALSE instance
-* GET /jalse/{jalseID} - summary of JALSE instance
-* GET /jalse/{jalseID}/{entityID} - summary of entity
-* GET /jalse/{jalseID}/entities - lists top level entities
-* GET /jalse/{jalseID}/{entityID}/entities - lists n level entities
+* GET /jalse/entities - lists top level entities
+* GET /jalse/summary - summary of JALSE/entity instance
 
-### Possible future Endpoints
-* POST /jalse/{jalseID}/entities/create - creates an entity
-* POST /jalse/{jalseID}/entities/kill - kills an entity
-* GET /jalse/{jalseID}/{entityID}/attributes - gets all attributes for an entity
-* GET /jalse/{jalseID}/{entityID}/attribute?name=scary&type=boolean - gets specific attribute of type
+### Common GET request parameters
+JALSE:
+```
+?jalseID=63eee6a2-8900-4021-b905-bed7e6ed0419
+```
+Entity:
+```
+jalseID=63eee6a2-8900-4021-b905-bed7e6ed0419&entityID=8bcb861b-2f99-4079-883f-972f4e2c1706
+```
 
-### Common request body
+### POST Endpoints
+* POST /jalse/new - creates a new JALSE instance
+* POST /jalse/kill - deletes a JALSE instance
+* POST /jalse/entities/new - creates an entity
+* POST /jalse/entities/kill - kills an entity
+
+### Common POST request bodies
+JALSE:
 ```javascript
 {
   "id": "63eee6a2-8900-4021-b905-bed7e6ed0419"
 }
 ```
+Entity:
+```javascript
+{
+  "jalseID": "63eee6a2-8900-4021-b905-bed7e6ed0419",
+  "id": "8bcb861b-2f99-4079-883f-972f4e2c1706"
+}
+```
+
+### Possible future changes
+* Entity types
+* Attributes (Endpoint/streaming)
+* Actions
+* Testing
 
 ### More
 See the [Wiki](https://github.com/Ellzord/JALSE/wiki) for more information.

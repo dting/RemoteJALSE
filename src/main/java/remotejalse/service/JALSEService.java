@@ -21,6 +21,7 @@ import jalse.actions.ActionEngine;
 import jalse.actions.ThreadPoolActionEngine;
 import jalse.entities.DefaultEntityFactory;
 import jalse.entities.Entity;
+import remotejalse.tags.EntityLimit;
 
 @Service
 public class JALSEService {
@@ -66,6 +67,12 @@ public class JALSEService {
 
 	// Create instance that cannot stop the shared engine.
 	final JALSE jalse = new DefaultJALSE(id, sharedEngine, new DefaultEntityFactory(entityLimit)) {
+
+	    @Override
+	    protected void addTags() {
+		super.addTags();
+		tags.add(new EntityLimit(entityLimit));
+	    }
 
 	    @Override
 	    public void pause() {}
