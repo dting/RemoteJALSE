@@ -17,7 +17,7 @@ JALSE:
 ```
 Entity:
 ```
-jalseID=63eee6a2-8900-4021-b905-bed7e6ed0419&entityID=8bcb861b-2f99-4079-883f-972f4e2c1706
+?jalseID=63eee6a2-8900-4021-b905-bed7e6ed0419&entityID=8bcb861b-2f99-4079-883f-972f4e2c1706
 ```
 
 ### POST Endpoints
