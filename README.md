@@ -6,34 +6,34 @@ A Spring-based RESTful + WebSocket [JALSE](https://github.com/Ellzord/JALSE) ser
 2. Run using ```./gradle run``` (See [The Application Plugin](http://gradle.org/docs/current/userguide/application_plugin.html))
 
 ### GET Endpoints
-* GET /jalse - lists all active JALSE instances
-* GET /jalse/entities - lists top level entities
-* GET /jalse/summary - summary of JALSE/entity instance
+* GET **/jalse** - lists all active JALSE instances
+* GET **/jalse/entities** - lists top level entities
+* GET **/jalse/summary** - summary of JALSE/entity instance
 
 ### Common GET request parameters
-JALSE:
+**JALSE**:
 ```
 ?jalseID=63eee6a2-8900-4021-b905-bed7e6ed0419
 ```
-Entity:
+**Entity**:
 ```
 ?jalseID=63eee6a2-8900-4021-b905-bed7e6ed0419&entityID=8bcb861b-2f99-4079-883f-972f4e2c1706
 ```
 
 ### POST Endpoints
-* POST /jalse/new - creates a new JALSE instance
-* POST /jalse/kill - deletes a JALSE instance
-* POST /jalse/entities/new - creates an entity
-* POST /jalse/entities/kill - kills an entity
+* POST **/jalse/new** - creates a new JALSE instance
+* POST **/jalse/kill** - deletes a JALSE instance
+* POST **/jalse/entities/new** - creates an entity
+* POST **/jalse/entities/kill** - kills an entity
 
 ### Common POST request bodies
-JALSE:
+**JALSE**:
 ```javascript
 {
   "id": "63eee6a2-8900-4021-b905-bed7e6ed0419"
 }
 ```
-Entity:
+**Entity**:
 ```javascript
 {
   "jalseID": "63eee6a2-8900-4021-b905-bed7e6ed0419",
@@ -43,7 +43,7 @@ Entity:
 
 ### Possible future changes
 * Entity types
-* Attributes (Endpoint/streaming)
+* Attributes (Endpoint/**streaming**)
 * Actions
 * Testing
 
